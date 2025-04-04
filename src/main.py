@@ -66,7 +66,7 @@ async def main() -> None:
                 image_tags = driver.find_elements(By.CSS_SELECTOR, '.woocommerce-product-gallery__image img')
                 images = [image.get_attribute('src') for image in image_tags]
 
-                description = driver.find_element(By.CSS_SELECTOR, '.woocommerce-Tabs-panel--description').get_attribute('innerHTML').strip()
+                description = driver.find_element(By.CSS_SELECTOR, '.woocommerce-Tabs-panel--description').get_attribute('innerText').strip()
 
                 description_image_tags = driver.find_elements(By.CSS_SELECTOR, '.woocommerce-Tabs-panel--description img')
                 description_images = [image.get_attribute('data-src') for image in description_image_tags]
