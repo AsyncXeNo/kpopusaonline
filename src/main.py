@@ -80,35 +80,38 @@ async def main() -> None:
                 variant_info = []
 
                 if variants_exist:
-                    variant_dropdown.click()
-                    time.sleep(0.2)
-                    options = driver.find_elements(By.CSS_SELECTOR, '.select2-results li')
-                    variant_dropdown.click()
-                    time.sleep(0.2)
+                    try:
+                        variant_dropdown.click()
+                        time.sleep(0.2)
+                        options = driver.find_elements(By.CSS_SELECTOR, '.select2-results li')
+                        variant_dropdown.click()
+                        time.sleep(0.2)
 
-                    for i in range(len(options)):
-                        driver.find_element(By.CSS_SELECTOR, '.select2-selection__rendered').click()
-                        time.sleep(0.5)
-                        option = driver.find_elements(By.CSS_SELECTOR, '.select2-results li')[i]
-                        variant_name = option.get_attribute('innerText').strip()
-                        option.click()
-                        time.sleep(1)
+                        for i in range(len(options)):
+                            driver.find_element(By.CSS_SELECTOR, '.select2-selection__rendered').click()
+                            time.sleep(0.5)
+                            option = driver.find_elements(By.CSS_SELECTOR, '.select2-results li')[i]
+                            variant_name = option.get_attribute('innerText').strip()
+                            option.click()
+                            time.sleep(1)
 
-                        try:
-                            variant_price = float(driver.find_element(By.CSS_SELECTOR, '.summary ins .woocommerce-Price-amount').get_attribute('innerText').replace('$', '').replace(',', '').strip())
-                        except Exception:
-                            variant_price = float(driver.find_element(By.CSS_SELECTOR, '.summary .woocommerce-Price-amount').get_attribute('innerText').replace('$', '').replace(',', '').strip())
+                            try:
+                                variant_price = float(driver.find_element(By.CSS_SELECTOR, '.summary ins .woocommerce-Price-amount').get_attribute('innerText').replace('$', '').replace(',', '').strip())
+                            except Exception:
+                                variant_price = float(driver.find_element(By.CSS_SELECTOR, '.summary .woocommerce-Price-amount').get_attribute('innerText').replace('$', '').replace(',', '').strip())
 
-                        try:
-                            variant_image = driver.find_element(By.CSS_SELECTOR, '.woocommerce-product-gallery__image.flex-active-slide img').get_attribute('src')
-                        except Exception:
-                            variant_image = driver.find_element(By.CSS_SELECTOR, '.woocommerce-product-gallery__image img').get_attribute('src')
+                            try:
+                                variant_image = driver.find_element(By.CSS_SELECTOR, '.woocommerce-product-gallery__image.flex-active-slide img').get_attribute('src')
+                            except Exception:
+                                variant_image = driver.find_element(By.CSS_SELECTOR, '.woocommerce-product-gallery__image img').get_attribute('src')
 
-                        variant_info.append({
-                            'name': variant_name,
-                            'price': variant_price,
-                            'image': variant_image
-                        })
+                            variant_info.append({
+                                'name': variant_name,
+                                'price': variant_price,
+                                'image': variant_image
+                            })
+                    except Exception:
+                        pass
 
                 data.append({
                     'url': url,
